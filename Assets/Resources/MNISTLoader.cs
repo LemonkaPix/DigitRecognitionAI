@@ -36,7 +36,7 @@ public class MNISTLoader : MonoBehaviour
                 float[] pixels = new float[values.Length - 1];
                 for (int i = 1; i < values.Length; i++)
                 {
-                    pixels[i - 1] = float.Parse(values[i]) / 255.0f; // Normalizuj wartoœci pikseli
+                    pixels[i - 1] = float.Parse(values[i]) / 255.0f;
                 }
                 data.Add(pixels);
             }
@@ -51,7 +51,7 @@ public class MNISTLoader : MonoBehaviour
                     float[] pixels = new float[values.Length - 1];
                     for (int i = 1; i < values.Length; i++)
                     {
-                        pixels[i - 1] = float.Parse(values[i]) / 255.0f; // Normalizuj wartoœci pikseli
+                        pixels[i - 1] = float.Parse(values[i]) / 255.0f;
                     }
                     data.Add(pixels);
                 }
