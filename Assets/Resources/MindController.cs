@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class MindController : MonoBehaviour
 {
+    public List<float[]> Mind = new List<float[]>();
+
+    #region Saving to file
     [System.Serializable]
     public class PositionsWrapper
     {
@@ -28,7 +31,6 @@ public class MindController : MonoBehaviour
         }
     }
 
-    public List<float[]> Mind;
 
     void SaveToJson(List<float[]> floatList, string fileName)
     {
@@ -64,29 +66,46 @@ public class MindController : MonoBehaviour
             return new List<float[]>();
         }
     }
+    #endregion
 
     [Button]
-    public void SaveTest()
+    public void SaveMind()
     {
-        List<float[]> floatList = new List<float[]>
-        {
-            new float[] { 1.0f, 2.0f, 3.0f },
-            new float[] { 4.0f, 5.0f, 6.0f }
-        };
-
-        // Save to JSON file
-        SaveToJson(floatList, "data.json");
+        SaveToJson(Mind, "mind.json");
     }
 
     [Button]
-    public void LoadTest()
+    public void LoadMind()
     {
-        List<float[]> loadedList = LoadFromJson("data.json");
+        Mind = LoadFromJson("mind.json");
+    }
 
-        // Printing loaded data
-        foreach (var array in loadedList)
+    #region TESTS
+        [Button]
+        public void SaveTest()
         {
-            Debug.Log("Array: " + string.Join(", ", array));
+            List<float[]> floatList = new List<float[]>
+            {
+                new float[] { 1.0f, 2.0f, 3.0f },
+                new float[] { 4.0f, 5.0f, 6.0f }
+            };
+
+            // Save to JSON file
+            SaveToJson(floatList, "test.json");
         }
-    }
+
+        [Button]
+        public void LoadTest()
+        {
+            List<float[]> loadedList = LoadFromJson("test.json");
+
+            // Printing loaded data
+            foreach (var array in loadedList)
+            {
+                Debug.Log("Array: " + string.Join(", ", array));
+            }
+        }
+
+    #endregion
+
 }
