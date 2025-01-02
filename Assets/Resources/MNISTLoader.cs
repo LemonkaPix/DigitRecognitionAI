@@ -5,6 +5,7 @@ using System.IO;
 
 public class MNISTLoader : MonoBehaviour
 {
+    public static MNISTLoader instance;
     [SerializeField] bool Debugging = false;
     [SerializeField] int debugExamples = 1;
 
@@ -14,6 +15,10 @@ public class MNISTLoader : MonoBehaviour
     public List<float[]> trainingData;
     public List<float[]> testData;
 
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+    }
     void Start()
     {
         trainingData = LoadData(trainingDataFile);

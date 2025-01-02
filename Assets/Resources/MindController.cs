@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class MindController : MonoBehaviour
 {
-    public List<float[]> Mind = new List<float[]>();
+    public static List<float[]> Mind = new List<float[]>();
 
     #region Saving to file
     [System.Serializable]
@@ -32,7 +32,7 @@ public class MindController : MonoBehaviour
     }
 
 
-    void SaveToJson(List<float[]> floatList, string fileName)
+    static void SaveToJson(List<float[]> floatList, string fileName)
     {
         List<PositionsWrapper> wrappedArrays = new List<PositionsWrapper>();
         foreach (var array in floatList)
@@ -46,7 +46,7 @@ public class MindController : MonoBehaviour
         Debug.Log("File path: " + Application.persistentDataPath + "\nSaved to JSON: " + json);
     }
 
-    List<float[]> LoadFromJson(string fileName)
+    static List<float[]> LoadFromJson(string fileName)
     {
         string path = Path.Combine(Application.persistentDataPath, fileName);
         if (File.Exists(path))
@@ -69,13 +69,13 @@ public class MindController : MonoBehaviour
     #endregion
 
     [Button]
-    public void SaveMind()
+    public static void SaveMind()
     {
         SaveToJson(Mind, "mind.json");
     }
 
     [Button]
-    public void LoadMind()
+    public static void LoadMind()
     {
         Mind = LoadFromJson("mind.json");
     }
