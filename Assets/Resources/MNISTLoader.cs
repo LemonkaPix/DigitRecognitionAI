@@ -6,6 +6,7 @@ using System.IO;
 public class MNISTLoader : MonoBehaviour
 {
     [SerializeField] bool Debugging = false;
+    [SerializeField] int debugExamples = 1;
 
     public TextAsset trainingDataFile;
     public TextAsset testDataFile;
@@ -29,16 +30,22 @@ public class MNISTLoader : MonoBehaviour
 
         if (Debugging) 
         {
-            string line = lines[0];
-            string[] values = line.Split(',');
-            if (values.Length > 1)
+            for (int j = 0; j < debugExamples; j++)
             {
-                float[] pixels = new float[values.Length - 1];
-                for (int i = 1; i < values.Length; i++)
+                string line = lines[j];
+                string[] values = line.Split(',');
+
+
+                if (values.Length > 1)
                 {
-                    pixels[i - 1] = float.Parse(values[i]) / 255.0f;
+                    float[] pixels = new float[values.Length - 1];
+                    for (int i = 1; i < values.Length; i++)
+                    {
+                        pixels[i - 1] = float.Parse(values[i]) / 255.0f;
+                    }
+                    data.Add(pixels);
                 }
-                data.Add(pixels);
+
             }
         }
         else
