@@ -19,8 +19,8 @@ public class MNISTLoader : MonoBehaviour
         trainingData = LoadData(trainingDataFile);
         testData = LoadData(testDataFile);
 
-        Debug.Log("Train data loaded: " + trainingData.Count);
-        Debug.Log("Test data loaded: " + testData.Count);
+        print("Train data loaded: " + trainingData.Count);
+        print("Test data loaded: " + testData.Count);
     }
 
     List<float[]> LoadData(TextAsset dataFile)
