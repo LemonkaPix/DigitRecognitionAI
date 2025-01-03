@@ -43,7 +43,7 @@ public class MNISTVisualizer : MonoBehaviour
         texture.Apply();
         rawImage.texture = texture;
     }
-    public void VisualizeImage(bool[,] image)
+    public void VisualizeImage(MapState[,] image)
     {
         texture = new Texture2D(28, 28);
 
@@ -53,11 +53,22 @@ public class MNISTVisualizer : MonoBehaviour
         {
             for (int x = 0; x < 28; x++)
             {
-                float pixelValue = 0;
+                switch (image[x, y])
+                {
+                    case MapState.blank:
+                        texture.SetPixel(x, y, Color.black);
+                        break;
+                    case MapState.normal:
+                        texture.SetPixel(x, y, Color.white);
+                        break;
+                    case MapState.marker:
+                        texture.SetPixel(x, y, Color.red);
+                        break;
+                    default:
+                        texture.SetPixel(x, y, Color.black);
+                        break;
+                }
 
-                if (image[x,y]) pixelValue = 1f;
-
-                texture.SetPixel(x, y, Color.HSVToRGB(0,0,pixelValue));
 
                 //GameObject pixel = Instantiate(pixelPrefab, new Vector3(x * spacing, y * spacing, 0), Quaternion.identity);
                 //pixel.GetComponent<SpriteRenderer>().color = new Color(pixelValue, pixelValue, pixelValue);
