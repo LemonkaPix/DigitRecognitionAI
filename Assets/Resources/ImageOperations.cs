@@ -83,7 +83,7 @@ public class ImageOperations : MonoBehaviour
                     grid[nx, ny] = MapState.marker;
                 }
             }
-            MNISTVisualizer.Instance.VisualizeImage(grid);
+            //MNISTVisualizer.Instance.VisualizeImage(grid);
         }
 
         return count;

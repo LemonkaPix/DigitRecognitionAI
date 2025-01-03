@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using System;
 using JetBrains.Annotations;
+using NaughtyAttributes;
 
 public class MNISTLoader : MonoBehaviour
 {
@@ -21,7 +22,9 @@ public class MNISTLoader : MonoBehaviour
     {
         if (instance == null) instance = this;
     }
-    void Start()
+
+    [Button]
+    void LoadData()
     {
         trainingData = LoadData(trainingDataFile);
         testData = LoadData(testDataFile);

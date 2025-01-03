@@ -8,6 +8,11 @@ public class MindController : MonoBehaviour
 {
     public static List<(int, float[])> Mind = new List<(int, float[])>();
 
+    private void Start()
+    {
+        LoadMind();
+    }
+
     #region Saving to file
     [System.Serializable]
     public class TupleWrapper
@@ -79,6 +84,12 @@ public class MindController : MonoBehaviour
     public static void LoadMind()
     {
         Mind = LoadFromJson("mind.json");
+    }
+
+    [Button]
+    public static void ClearMind()
+    {
+        Mind = new List<(int, float[])>();
     }
 
     #region TESTS

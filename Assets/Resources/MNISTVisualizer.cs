@@ -19,7 +19,7 @@ public class MNISTVisualizer : MonoBehaviour
 
     void Start()
     {
-        VisualizeImage(mnistLoader.trainingData[4].Item2);
+        //VisualizeImage(mnistLoader.trainingData[4].Item2);
     }
 
     public void VisualizeImage(float[] image)
