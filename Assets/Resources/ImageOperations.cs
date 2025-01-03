@@ -29,26 +29,43 @@ public class ImageOperations : MonoBehaviour
                 {
                     map[x, y] = MapState.normal;
                 }
+                //if (image[y * 28 + x] > 0)
+                //{
+                //    map[x, y] = MapState.normal;
+                //}
+
             }
         }
 
         return map;
     }
 
-    public static IEnumerator BFS(MapState[,] grid, int startX, int startY, List<(int, int)> directions)
+    public static int BFS(MapState[,] gridInput, List<(int, int)> directions)
     {
+        MapState[,] grid = (MapState[,])gridInput.Clone();
+
         int rows = 28;
         int cols = 28;
 
-        if (startX < 0 || startX >= rows || startY < 0 || startY >= cols || grid[startX, startY] != MapState.blank)
+        List<(int, int)> startPoints = new List<(int, int)>
         {
-            yield break;
+            (0,0),
+            (27,0),
+            (27,27),
+            (0,27),
+        };
+
+        Queue<(int, int)> queue = new Queue<(int, int)>();
+        foreach (var (startX, startY) in startPoints)
+        {
+            if (startX >= 0 && startX < rows && startY >= 0 && startY < cols && grid[startX, startY] == MapState.blank)
+            {
+                queue.Enqueue((startX, startY));
+                grid[startX, startY] = MapState.marker;
+            }
         }
 
         int count = 0;
-        Queue<(int, int)> queue = new Queue<(int, int)>();
-        queue.Enqueue((startX, startY));
-        grid[startX, startY] = MapState.marker; // Mark as visited
 
         while (queue.Count > 0)
         {
@@ -63,15 +80,13 @@ public class ImageOperations : MonoBehaviour
                 if (nx >= 0 && nx < rows && ny >= 0 && ny < cols && grid[nx, ny] == MapState.blank)
                 {
                     queue.Enqueue((nx, ny));
-                    grid[nx, ny] = MapState.marker; // Mark as visited
+                    grid[nx, ny] = MapState.marker;
                 }
             }
-            yield return new WaitForSeconds(.01f);
-            //print("TICK");
             MNISTVisualizer.Instance.VisualizeImage(grid);
         }
 
-        print(count);
+        return count;
     }
 
     public static int CountState(MapState[,] array, MapState state)

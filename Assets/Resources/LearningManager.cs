@@ -24,7 +24,7 @@ public class LearningManager : MonoBehaviour
     {
         var map = ImageOperations.FloatArrayToMapState(MNISTLoader.instance.trainingData[0].Item2);
         MNISTVisualizer.Instance.VisualizeImage(map);
-        StartCoroutine(ImageOperations.BFS(map, 0, 0, new List<(int, int)> { (1, 0), (0, -1), (-1, 0) }));
-
+        var count = ImageOperations.BFS(map, new List<(int, int)> { (1, 0), (0, 1), (0, -1) });
+        print((28*28) - count - ImageOperations.CountState(map, MapState.normal));
     }
 }
