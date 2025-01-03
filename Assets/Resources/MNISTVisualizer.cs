@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +19,7 @@ public class MNISTVisualizer : MonoBehaviour
 
     void Start()
     {
-        VisualizeImage(mnistLoader.trainingData[0]);
+        VisualizeImage(mnistLoader.trainingData[4].Item2);
     }
 
     public void VisualizeImage(float[] image)
@@ -33,7 +34,7 @@ public class MNISTVisualizer : MonoBehaviour
             {
                 float pixelValue = image[y * 28 + x];
 
-                texture.SetPixel(x, y, Color.HSVToRGB(0,0,pixelValue));
+                texture.SetPixel(x, 27-y, Color.HSVToRGB(0,0,pixelValue));
 
                 //GameObject pixel = Instantiate(pixelPrefab, new Vector3(x * spacing, y * spacing, 0), Quaternion.identity);
                 //pixel.GetComponent<SpriteRenderer>().color = new Color(pixelValue, pixelValue, pixelValue);
@@ -56,16 +57,16 @@ public class MNISTVisualizer : MonoBehaviour
                 switch (image[x, y])
                 {
                     case MapState.blank:
-                        texture.SetPixel(x, y, Color.black);
+                        texture.SetPixel(x, 27-y, Color.black);
                         break;
                     case MapState.normal:
-                        texture.SetPixel(x, y, Color.white);
+                        texture.SetPixel(x, 27-y, Color.white);
                         break;
                     case MapState.marker:
-                        texture.SetPixel(x, y, Color.red);
+                        texture.SetPixel(x, 27-y, Color.red);
                         break;
                     default:
-                        texture.SetPixel(x, y, Color.black);
+                        texture.SetPixel(x, 27-y, Color.black);
                         break;
                 }
 
@@ -77,5 +78,20 @@ public class MNISTVisualizer : MonoBehaviour
 
         texture.Apply();
         rawImage.texture = texture;
+    }
+
+    [Button]
+    public void test()
+    {
+        texture = new Texture2D(28, 28);
+
+        texture.filterMode = FilterMode.Point;
+
+        texture.SetPixel(0, 0, Color.green);
+
+
+        texture.Apply();
+        rawImage.texture = texture;
+
     }
 }

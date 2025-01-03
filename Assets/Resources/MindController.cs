@@ -6,64 +6,65 @@ using UnityEngine;
 
 public class MindController : MonoBehaviour
 {
-    public static List<float[]> Mind = new List<float[]>();
+    public static List<(int, float[])> Mind = new List<(int, float[])>();
 
     #region Saving to file
     [System.Serializable]
-    public class PositionsWrapper
+    public class TupleWrapper
     {
+        public int number;
         public float[] position;
 
-        public PositionsWrapper(float[] array)
+        public TupleWrapper(int id, float[] array)
         {
-            position = array;
+            this.number = id;
+            this.position = array;
         }
     }
 
     [System.Serializable]
     public class RecordsWrapper
     {
-        public List<PositionsWrapper> records;
+        public List<TupleWrapper> records;
 
-        public RecordsWrapper(List<PositionsWrapper> arrays)
+        public RecordsWrapper(List<TupleWrapper> tuples)
         {
-            records = arrays;
+            this.records = tuples;
         }
     }
 
-
-    static void SaveToJson(List<float[]> floatList, string fileName)
+    static void SaveToJson(List<(int, float[])> tupleList, string fileName)
     {
-        List<PositionsWrapper> wrappedArrays = new List<PositionsWrapper>();
-        foreach (var array in floatList)
+        List<TupleWrapper> wrappedTuples = new List<TupleWrapper>();
+        foreach (var tuple in tupleList)
         {
-            wrappedArrays.Add(new PositionsWrapper(array));
+            wrappedTuples.Add(new TupleWrapper(tuple.Item1, tuple.Item2));
         }
 
-        RecordsWrapper wrapper = new RecordsWrapper(wrappedArrays);
+        RecordsWrapper wrapper = new RecordsWrapper(wrappedTuples);
         string json = JsonUtility.ToJson(wrapper, true);
         File.WriteAllText(Path.Combine(Application.persistentDataPath, fileName), json);
         Debug.Log("File path: " + Application.persistentDataPath + "\nSaved to JSON: " + json);
     }
 
-    static List<float[]> LoadFromJson(string fileName)
+    static List<(int, float[])> LoadFromJson(string fileName)
     {
         string path = Path.Combine(Application.persistentDataPath, fileName);
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
             RecordsWrapper wrapper = JsonUtility.FromJson<RecordsWrapper>(json);
-            List<float[]> floatArrays = new List<float[]>();
-            foreach (var wrappedArray in wrapper.records)
+            List<(int, float[])> tuples = new List<(int, float[])>();
+            foreach (var wrappedTuple in wrapper.records)
             {
-                floatArrays.Add(wrappedArray.position);
+                tuples.Add((wrappedTuple.number, wrappedTuple.position));
             }
-            return floatArrays;
+            return tuples;
         }
         else
         {
             Debug.LogError("File does not exist: " + path);
-            return new List<float[]>();
+            return new List<(int, float[])>();
         }
     }
     #endregion
@@ -84,25 +85,26 @@ public class MindController : MonoBehaviour
         [Button]
         public void SaveTest()
         {
-            List<float[]> floatList = new List<float[]>
+            List<(int, float[])> originalList = new List<(int, float[])>
             {
-                new float[] { 1.0f, 2.0f, 3.0f },
-                new float[] { 4.0f, 5.0f, 6.0f }
+                (1, new float[] { 1.1f, 2.2f, 3.3f }),
+                (2, new float[] { 4.4f, 5.5f, 6.6f }),
+                (3, new float[] { 7.7f, 8.8f, 9.9f })
             };
 
-            // Save to JSON file
-            SaveToJson(floatList, "test.json");
+        // Save to JSON file
+        SaveToJson(originalList, "test.json");
         }
 
         [Button]
         public void LoadTest()
         {
-            List<float[]> loadedList = LoadFromJson("test.json");
+            List<(int, float[])> loadedList = LoadFromJson("test.json");
 
             // Printing loaded data
             foreach (var array in loadedList)
             {
-                Debug.Log("Array: " + string.Join(", ", array));
+                Debug.Log($"Number: {array.Item1} Array: {string.Join(", ", array.Item2)}");
             }
         }
 

@@ -58,7 +58,7 @@ public class ImageOperations : MonoBehaviour
             foreach (var (dx, dy) in directions)
             {
                 int nx = x + dx;
-                int ny = y + dy;
+                int ny = y - dy;
 
                 if (nx >= 0 && nx < rows && ny >= 0 && ny < cols && grid[nx, ny] == MapState.blank)
                 {
@@ -73,5 +73,24 @@ public class ImageOperations : MonoBehaviour
 
         print(count);
     }
+
+    public static int CountState(MapState[,] array, MapState state)
+    {
+        int count = 0;
+
+        for (int i = 0; i < array.GetLength(0); i++) 
+        {
+            for (int j = 0; j < array.GetLength(1); j++)
+            {
+                if (array[i, j] == state)
+                {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
 
 }

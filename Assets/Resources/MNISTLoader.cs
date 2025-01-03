@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
+using JetBrains.Annotations;
 
 public class MNISTLoader : MonoBehaviour
 {
@@ -12,8 +14,8 @@ public class MNISTLoader : MonoBehaviour
     public TextAsset trainingDataFile;
     public TextAsset testDataFile;
 
-    public List<float[]> trainingData;
-    public List<float[]> testData;
+    public List<(int, float[])> trainingData;
+    public List<(int, float[])> testData;
 
     private void Awake()
     {
@@ -28,9 +30,9 @@ public class MNISTLoader : MonoBehaviour
         print("Test data loaded: " + testData.Count);
     }
 
-    List<float[]> LoadData(TextAsset dataFile)
+    List<(int, float[])> LoadData(TextAsset dataFile)
     {
-        List<float[]> data = new List<float[]>();
+        List<(int, float[])> data = new List<(int, float[])>();
         string[] lines = dataFile.text.Split('\n');
 
         if (Debugging) 
@@ -48,7 +50,7 @@ public class MNISTLoader : MonoBehaviour
                     {
                         pixels[i - 1] = float.Parse(values[i]) / 255.0f;
                     }
-                    data.Add(pixels);
+                    data.Add((Convert.ToInt32(values[0]), pixels));
                 }
 
             }
@@ -65,7 +67,7 @@ public class MNISTLoader : MonoBehaviour
                     {
                         pixels[i - 1] = float.Parse(values[i]) / 255.0f;
                     }
-                    data.Add(pixels);
+                    data.Add((Convert.ToInt32(values[0]), pixels));
                 }
             }
         }
