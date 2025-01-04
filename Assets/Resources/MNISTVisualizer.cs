@@ -20,6 +20,36 @@ public class MNISTVisualizer : MonoBehaviour
     void Start()
     {
         //VisualizeImage(mnistLoader.trainingData[4].Item2);
+        texture = new Texture2D(28, 28);
+
+        for (int i = 0; i < 28; i++)
+        {
+            for (int j = 0; j < 28; j++)
+            {
+                texture.SetPixel(i, j, Color.black);
+            }
+        }
+
+        texture.filterMode = FilterMode.Point;
+        texture.Apply();
+        rawImage.texture = texture;
+
+    }
+
+    [Button]
+    public void ClearTexture()
+    {
+        for (int i = 0; i < 28; i++)
+        {
+            for (int j = 0; j < 28; j++)
+            {
+                texture.SetPixel(i, j, Color.black);
+            }
+        }
+
+        texture.filterMode = FilterMode.Point;
+        texture.Apply();
+
     }
 
     public void VisualizeImage(float[] image)
@@ -78,6 +108,38 @@ public class MNISTVisualizer : MonoBehaviour
 
         texture.Apply();
         rawImage.texture = texture;
+    }
+
+    void Update()
+    {
+        // Przyk³ad zmiany koloru piksela po klikniêciu mysz¹
+        if (Input.GetMouseButton(0))
+        {
+
+            // Pobranie pozycji kursora myszy
+            Vector2 mousePosition = Input.mousePosition;
+
+            // Przeliczenie pozycji kursora na wspó³rzêdne tekstury
+            Vector2 localCursor;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rawImage.rectTransform, mousePosition, null, out localCursor);
+
+            //print(mousePosition);
+            //print(localCursor);
+
+            int x = (int)((localCursor.x + rawImage.rectTransform.rect.width / 2) * (texture.width / rawImage.rectTransform.rect.width));
+            int y = (int)((localCursor.y + rawImage.rectTransform.rect.height / 2) * (texture.height / rawImage.rectTransform.rect.height));
+
+            //print($"{x} {y}");
+
+
+            // Zmiana koloru piksela
+            if(x > 1 && y > 1 && x < 27 && y < 27)
+            texture.SetPixel(x, y, Color.white);
+
+            // Zastosowanie zmian w teksturze
+            texture.Apply();
+
+        }
     }
 
     [Button]
