@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -62,6 +63,79 @@ public class Usage : MonoBehaviour
         }
 
         return closestNeighbour.Item1;
+    }
+
+    public static int RecognizeByClosestDataCloud(float[] image)
+    {
+        MapState[,] map = ImageOperations.FloatArrayToMapState(image);
+
+        float[] vector = new float[9];
+
+        int whiteCount = ImageOperations.CountState(map, MapState.normal);
+
+        List<List<(int, int)>> directions = new List<List<(int, int)>> {
+                new List<(int, int)> { (1, 0), (-1, 0), (0, 1), }, //TOP
+                new List<(int, int)> { (1, 1), (-1, 0), (0, 1), (-1, -1), }, //TOP LEFT
+                new List<(int, int)> { (1, 0), (-1, 1), (0, 1), (1, -1), }, //TOP RIGHT
+                new List<(int, int)> { (-1, 0), (0, 1), (0, -1), }, //LEFT
+                new List<(int, int)> { (1, 0), (0, 1), (0, -1), }, //RIGHT
+                new List<(int, int)> { (1, -1), (-1, 0), (-1, 1), (0, -1), }, //BOTTOM LEFT
+                new List<(int, int)> { (1, 0), (-1, -1), (1, 1), (0, -1), }, //BOTTOM RIGHT
+                new List<(int, int)> { (1, 0), (-1, 0), (0, -1), }, //BOTTOM
+                new List<(int, int)> { (1, 0), (-1, 0), (0, 1), (0, -1), }, //ALL
+            };
+
+        for (int i = 0; i < directions.Count; i++)
+        {
+            int count = ImageOperations.BFS(map, directions[i]);
+            count = (28 * 28) - count - whiteCount;
+            vector[i] = (float)count / ((28 * 28) - whiteCount);
+        }
+
+        //Dictionary<int, List<float>> dataClouds = new Dictionary<int, List<float>>();
+
+        List<float>[] dataClouds = new List<float>[10];
+        float[] avgDistanceFromCLoud = new float[10];
+
+        for (int i = 0; i < 10; i++)
+        {
+            dataClouds[i] = new List<float>();
+        }
+
+        foreach ((int, float[]) item in MindController.Mind)
+        {
+            float distance = DataVectorDistance(vector, item.Item2);
+
+            dataClouds[item.Item1].Add(distance);
+        }
+
+        for (int i = 0; i < dataClouds.Length; i++)
+        {
+            List<float> distances = dataClouds[i];
+
+            float sum = 0;
+
+            foreach (float distance in distances)
+            {
+                sum += distance;
+            }
+
+            avgDistanceFromCLoud[i] = sum/distances.Count;
+        }
+
+        int closestDigit = -1;
+        int closestDistance = 2;
+
+        for (int i = 0; i < avgDistanceFromCLoud.Length; i++)
+        {
+            var avgDist = avgDistanceFromCLoud[i];
+            if(avgDist < closestDistance)
+            {
+                closestDigit = i;
+            }
+        }
+
+        return closestDigit;
     }
 
     [Button]
