@@ -10,6 +10,7 @@ public class MNISTLoader : MonoBehaviour
 {
     public static MNISTLoader instance;
     [SerializeField] bool Debugging = false;
+    [SerializeField] bool loadTrainData = false;
     [SerializeField] int debugExamples = 1;
 
     public TextAsset trainingDataFile;
@@ -26,10 +27,10 @@ public class MNISTLoader : MonoBehaviour
     [Button]
     void LoadData()
     {
-        trainingData = LoadData(trainingDataFile);
+        if(loadTrainData) trainingData = LoadData(trainingDataFile);
         testData = LoadData(testDataFile);
 
-        print("Train data loaded: " + trainingData.Count);
+        if (loadTrainData) print("Train data loaded: " + trainingData.Count);
         print("Test data loaded: " + testData.Count);
     }
 

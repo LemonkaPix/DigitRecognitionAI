@@ -48,9 +48,9 @@ public class LearningManager : MonoBehaviour
 
         MindController.SaveMind();
     }
+    
 
-
-
+    
     [Button]
     public void test()
     {

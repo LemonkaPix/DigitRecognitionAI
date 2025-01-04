@@ -64,6 +64,7 @@ public class MindController : MonoBehaviour
             {
                 tuples.Add((wrappedTuple.number, wrappedTuple.position));
             }
+            print(path + fileName + " successfully loaded");
             return tuples;
         }
         else
@@ -84,6 +85,7 @@ public class MindController : MonoBehaviour
     public static void LoadMind()
     {
         Mind = LoadFromJson("mind.json");
+        print($"Mind contains {Mind.Count} positions");
     }
 
     [Button]
