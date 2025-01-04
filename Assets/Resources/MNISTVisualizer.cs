@@ -10,7 +10,7 @@ public class MNISTVisualizer : MonoBehaviour
 
     public RawImage rawImage;
 
-    private Texture2D texture;
+    public Texture2D texture;
 
     private void Awake()
     {

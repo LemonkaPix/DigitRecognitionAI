@@ -2,12 +2,15 @@ using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
 public class Usage : MonoBehaviour
 {
+    [SerializeField] TMP_Text outputText;
+
     public static float DataVectorDistance(float[] v1, float[] v2)
     {
         if (v1.Length != 9 || v2.Length != 9)
@@ -23,6 +26,7 @@ public class Usage : MonoBehaviour
 
         return (float)Math.Sqrt(sumaKwadratow);
     }
+
     public static int RecognizeByClosestNeighbour(float[] image)
     {
         MapState[,] map = ImageOperations.FloatArrayToMapState(image);
@@ -136,6 +140,36 @@ public class Usage : MonoBehaviour
         }
 
         return closestDigit;
+    }
+
+    public float[] TextureToMap(Texture2D texture)
+    {
+        float[] map = new float[28*28];
+
+        for (int y = 0; y < texture.height; y++)
+        {
+            for (int x = 0; x < texture.width; x++)
+            {
+                Color color = texture.GetPixel(x,y);
+
+                if (color == Color.black)
+                    map[(27 - y) * 28 + x] = 0;
+                else
+                if (color == Color.white)
+                    map[(27 - y) * 28 + x] = 1;
+            }
+        }
+
+        return map;
+    }
+
+    [Button]
+    public void UseModel()
+    {
+        float[] map = TextureToMap(MNISTVisualizer.Instance.texture);
+        int digit = RecognizeByClosestNeighbour(map);
+        print(digit);
+        outputText.text = $"You drew {digit}!";
     }
 
     [Button]
