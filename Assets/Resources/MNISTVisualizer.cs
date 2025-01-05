@@ -138,6 +138,7 @@ public class MNISTVisualizer : MonoBehaviour
                 texture.SetPixel(x, y, Color.white);
                 texture.SetPixel(x+1, y, Color.white);
                 texture.SetPixel(x, y+1, Color.white);
+                texture.SetPixel(x+1, y+1, Color.white);
             }
 
 
