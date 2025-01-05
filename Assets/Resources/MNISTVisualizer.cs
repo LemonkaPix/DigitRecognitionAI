@@ -133,8 +133,15 @@ public class MNISTVisualizer : MonoBehaviour
 
 
             // Zmiana koloru piksela
-            if(x > 1 && y > 1 && x < 27 && y < 27)
-            texture.SetPixel(x, y, Color.white);
+            if(x > 1 && y > 1 && x < 26 && y < 26)
+            {
+                texture.SetPixel(x, y, Color.white);
+                texture.SetPixel(x+1, y, Color.white);
+                texture.SetPixel(x-1, y, Color.white);
+                texture.SetPixel(x, y+1, Color.white);
+                texture.SetPixel(x, y-1, Color.white);
+            }
+
 
             // Zastosowanie zmian w teksturze
             texture.Apply();

@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class Usage : MonoBehaviour
 {
-    [SerializeField] TMP_Text outputText;
+    public TMP_Text outputText;
 
     public static float DataVectorDistance(float[] v1, float[] v2)
     {
@@ -142,7 +142,7 @@ public class Usage : MonoBehaviour
         return closestDigit;
     }
 
-    public float[] TextureToMap(Texture2D texture)
+    public static float[] TextureToMap(Texture2D texture)
     {
         float[] map = new float[28*28];
 

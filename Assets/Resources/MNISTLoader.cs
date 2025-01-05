@@ -5,6 +5,7 @@ using System.IO;
 using System;
 using JetBrains.Annotations;
 using NaughtyAttributes;
+using UnityEditor;
 
 public class MNISTLoader : MonoBehaviour
 {
@@ -78,5 +79,23 @@ public class MNISTLoader : MonoBehaviour
 
 
         return data;
+    }
+    public static float[] LoadOneData(TextAsset dataFile, int index)
+    {
+        string[] lines = dataFile.text.Split('\n');
+
+        string line = lines[index];
+        string[] values = line.Split(',');
+        float[] pixels = new float[0];
+        if (values.Length > 1)
+        {
+            pixels = new float[values.Length - 1];
+            for (int i = 1; i < values.Length; i++)
+            {
+                pixels[i - 1] = float.Parse(values[i]) / 255.0f;
+            }
+        }
+        
+        return pixels;
     }
 }
