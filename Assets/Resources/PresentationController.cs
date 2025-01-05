@@ -130,9 +130,10 @@ public class PresentationController : MonoBehaviour
         }
 
         int count2 = 0;
-
+        int counter = 0;
         while (queue.Count > 0)
         {
+            counter++;
             var (x, y) = queue.Dequeue();
             count2++;
 
@@ -147,9 +148,12 @@ public class PresentationController : MonoBehaviour
                     grid[nx, ny] = MapState.marker;
                 }
             }
-            yield return new WaitForSeconds(.0001f);
-            //print("TICK");
-            MNISTVisualizer.Instance.VisualizeImage(grid);
+
+            if(counter%3 == 0)
+            {
+                yield return null;
+                MNISTVisualizer.Instance.VisualizeImage(grid);
+            }
         }
 
         count = count2;

@@ -465,6 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e9dcd40e08186143980bc2da83d5a5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MindJson: {fileID: 4900000, guid: 726d3982513ed8e4fabd2a74f7d60de3, type: 3}
 --- !u!4 &767011361
 Transform:
   m_ObjectHideFlags: 0
@@ -2149,10 +2150,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MNISTVisualizer, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 542855118}
+        m_TargetAssemblyTypeName: SceneController, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

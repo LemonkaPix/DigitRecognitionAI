@@ -6,11 +6,12 @@ using UnityEngine;
 
 public class MindController : MonoBehaviour
 {
+    [SerializeField] TextAsset MindJson;
     public static List<(int, float[])> Mind = new List<(int, float[])>();
 
     private void Start()
     {
-        LoadMind();
+        Mind = LoadFromJsonFile(MindJson);
     }
 
     #region Saving to file
@@ -72,6 +73,18 @@ public class MindController : MonoBehaviour
             Debug.LogError("File does not exist: " + path);
             return new List<(int, float[])>();
         }
+    }
+    static List<(int, float[])> LoadFromJsonFile(TextAsset file)
+    {
+
+        string json = file.text;
+        RecordsWrapper wrapper = JsonUtility.FromJson<RecordsWrapper>(json);
+        List<(int, float[])> tuples = new List<(int, float[])>();
+        foreach (var wrappedTuple in wrapper.records)
+        {
+            tuples.Add((wrappedTuple.number, wrappedTuple.position));
+        }
+        return tuples;
     }
     #endregion
 
