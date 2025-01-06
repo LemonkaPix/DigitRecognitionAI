@@ -12,6 +12,7 @@ public class PresentationController : MonoBehaviour
     public TextAsset trainingDataFile;
     public RawImage rawImage;
     public Texture2D texture;
+    public Slider slider;
 
     int digit = -1;
     int count = -1;
@@ -57,20 +58,34 @@ public class PresentationController : MonoBehaviour
         int whiteCount = ImageOperations.CountState(map, MapState.normal);
 
         List<List<(int, int)>> directions = new List<List<(int, int)>> {
-                new List<(int, int)> { (1, 0), (-1, 0), (0, 1), }, //TOP
-                new List<(int, int)> { (1, 1), (-1, 0), (0, 1), (-1, -1), }, //TOP LEFT
-                new List<(int, int)> { (1, 0), (-1, 1), (0, 1), (1, -1), }, //TOP RIGHT
-                new List<(int, int)> { (-1, 0), (0, 1), (0, -1), }, //LEFT
-                new List<(int, int)> { (1, 0), (0, 1), (0, -1), }, //RIGHT
-                new List<(int, int)> { (1, -1), (-1, 0), (-1, 1), (0, -1), }, //BOTTOM LEFT
-                new List<(int, int)> { (1, 0), (-1, -1), (1, 1), (0, -1), }, //BOTTOM RIGHT
-                new List<(int, int)> { (1, 0), (-1, 0), (0, -1), }, //BOTTOM
-                new List<(int, int)> { (1, 0), (-1, 0), (0, 1), (0, -1), }, //ALL
-            };
+            new List<(int, int)> { (1, 0), (-1, 0), (0, 1), }, //TOP
+            new List<(int, int)> { (1, 1), (-1, 0), (0, 1), (-1, -1), }, //TOP LEFT
+            new List<(int, int)> { (1, 0), (-1, 1), (0, 1), (1, -1), }, //TOP RIGHT
+            new List<(int, int)> { (-1, 0), (0, 1), (0, -1), }, //LEFT
+            new List<(int, int)> { (1, 0), (0, 1), (0, -1), }, //RIGHT
+            new List<(int, int)> { (1, -1), (-1, 0), (-1, 1), (0, -1), }, //BOTTOM LEFT
+            new List<(int, int)> { (1, 0), (-1, -1), (1, 1), (0, -1), }, //BOTTOM RIGHT
+            new List<(int, int)> { (1, 0), (-1, 0), (0, -1), }, //BOTTOM
+            new List<(int, int)> { (1, 0), (-1, 0), (0, 1), (0, -1), }, //ALL
+        };
+
+        List<List<(int, int)>> startPoints = new List<List<(int, int)>>
+        {
+            new List<(int, int)> { (27,27), (0,27) },
+            new List<(int, int)> { (27,27) },
+            new List<(int, int)> { (0,27) },
+            new List<(int, int)> { (27,0), (27,27)},
+            new List<(int, int)> { (0,0), (0,27) },
+            new List<(int, int)> { (27,0) },
+            new List<(int, int)> { (0,0) },
+            new List<(int, int)> { (0,0), (27,0) },
+            new List<(int, int)> { (0,0), (27,0), (27,27), (0,27) },
+            
+        };
 
         for (int i = 0; i < directions.Count; i++)
         {
-            yield return StartCoroutine(BFS(map, directions[i]));
+            yield return StartCoroutine(BFS(map, startPoints[i],directions[i]));
             count = (28 * 28) - count - whiteCount;
             vector[i] = (float)count / ((28 * 28) - whiteCount);
             string VTText = "[";
@@ -104,20 +119,14 @@ public class PresentationController : MonoBehaviour
         digit = closestNeighbour.Item1;
     }
 
-    public IEnumerator BFS(MapState[,] gridInput, List<(int, int)> directions)
+    public IEnumerator BFS(MapState[,] gridInput, List<(int, int)> startPoints, List<(int, int)> directions)
     {
         MapState[,] grid = (MapState[,])gridInput.Clone();
 
         int rows = 28;
         int cols = 28;
 
-        List<(int, int)> startPoints = new List<(int, int)>
-        {
-            (0,0),
-            (27,0),
-            (27,27),
-            (0,27),
-        };
+
 
         Queue<(int, int)> queue = new Queue<(int, int)>();
         foreach (var (startX, startY) in startPoints)
@@ -149,11 +158,23 @@ public class PresentationController : MonoBehaviour
                 }
             }
 
-            if(counter%3 == 0)
+
+            if (slider.value == 0)
             {
-                yield return null;
-                MNISTVisualizer.Instance.VisualizeImage(grid);
+                if (counter % 3 == 0)
+                {
+                    yield return null;
+                    MNISTVisualizer.Instance.VisualizeImage(grid);
+
+                }
             }
+            else
+            {
+                yield return new WaitForSeconds(slider.value);
+                MNISTVisualizer.Instance.VisualizeImage(grid);
+
+            }
+
         }
 
         count = count2;
