@@ -2,7 +2,7 @@
 # DigitRecognitionAI
 
 ## 🎯 Project Description
-**DigitRecognitionAI** is an project that uses machine learning to recognize handwritten digits. The project was inspired by the video [“Building a Digit Recognizer”](https://www.youtube.com/watch?v=CC4G_xKK2g8&t=73s) and implemented with my own approach to the problem.
+**DigitRecognitionAI** is an project that uses machine learning to recognize handwritten digits. The project was inspired by the video [“Can Water Recognise Numbers? | KNN Digit Recogniser”](https://www.youtube.com/watch?v=CC4G_xKK2g8&t=73s) and implemented with my own approach to the problem.
 
 The application uses KNN method to classify images of digits from 0 to 9.
 
@@ -10,7 +10,7 @@ The application uses KNN method to classify images of digits from 0 to 9.
 
 ## 🛠 Technologies and Tools
 - **C#** – the main programming language
-- **Unity** – for data processing, visualizing results and simple user interface to draw digits
+- **Unity** – for visualizing results and simple user interface to draw digits
 
 ---
 
@@ -38,10 +38,10 @@ The application uses KNN method to classify images of digits from 0 to 9.
 
 ## 📸 Screenshots
 ### Main Application Window
-![Main Application Window](images/normalMode.png)
+![Main Application Window](https://github.com/LemonkaPix/DigitRecognitionAI/blob/main/screenshots/normalMode.png)
 
 ### Example of Digit Recognition
-![Presentation mode](images/presentationMode.png)
+![Presentation mode](https://github.com/LemonkaPix/DigitRecognitionAI/blob/main/screenshots/presentationMode.png)
 
 ---
 
