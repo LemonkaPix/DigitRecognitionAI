@@ -874,7 +874,7 @@ MonoBehaviour:
   Debugging: 1
   loadTrainData: 0
   debugExamples: 10
-  trainingDataFile: {fileID: 4900000, guid: 57f57495f8a979a4b96487985379ed8c, type: 3}
+  trainingDataFile: {fileID: 4900000, guid: 1d211279229eb40e883b7988951fbe06, type: 3}
   testDataFile: {fileID: 4900000, guid: 1876dff47c7c6ac4ebdd4c1c151d6f77, type: 3}
 --- !u!4 &1042325687
 Transform:
@@ -2385,7 +2385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outputText: {fileID: 1305899257}
   vectorText: {fileID: 1265986042}
-  trainingDataFile: {fileID: 4900000, guid: 57f57495f8a979a4b96487985379ed8c, type: 3}
+  trainingDataFile: {fileID: 4900000, guid: 1d211279229eb40e883b7988951fbe06, type: 3}
   rawImage: {fileID: 1971518959}
   texture: {fileID: 0}
   slider: {fileID: 2106239975}
